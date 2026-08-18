@@ -35,16 +35,6 @@ type ApprovalTask struct {
 	Version        int64              `json:"version"`
 }
 
-func (h ApprovalTask) ResolutionTime(now time.Time) time.Time {
-	if !h.CreatedAt.IsZero() {
-		return h.CreatedAt.UTC()
-	}
-	if now.IsZero() {
-		return h.UpdatedAt.UTC()
-	}
-	return now.UTC()
-}
-
 func (h ApprovalTask) Validate() error {
 	if strings.TrimSpace(h.InferenceRunID) == "" || strings.TrimSpace(h.RequesterID) == "" || strings.TrimSpace(h.ReviewerID) == "" {
 		return FieldError{Field: "approval_task", Message: "run, requester and reviewer are required"}

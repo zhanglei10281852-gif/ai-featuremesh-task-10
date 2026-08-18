@@ -76,8 +76,7 @@ func (s *ApprovalService) ResolveApprovalTask(ctx context.Context, approval_task
 		if accepted {
 			status = domain.ApprovalTaskAccepted
 		}
-		resolvedAt := approval_task.ResolutionTime(s.clock.Now())
-		if err := approval_task.Resolve(status, note, resolvedAt); err != nil {
+		if err := approval_task.Resolve(status, note, s.clock.Now()); err != nil {
 			return err
 		}
 		if err := tx.UpdateApprovalTask(ctx, approval_task, approval_task.Version); err != nil {
